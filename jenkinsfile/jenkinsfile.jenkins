@@ -10,13 +10,15 @@ pipeline {
 
         stage('Archive') {
             steps {
-                zip zipFile: '%JENKINS_HOME%\\workspace\\Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', dir: '%JENKINS_HOME%\\workspace\\Spring\\target'
+                zip zipFile: '..\\Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', 
+                dir: 'target'
             }
         }
 
         stage('Deploy') {
             steps {
-                unzip zipFile: '%JENKINS_HOME%\\workspace\\Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', dir: '%JENKINS_HOME%\\workspace\\Spring_BUILDS\\DeployedBuilds\\' + env.BUILD_NUMBER.toString()
+                unzip zipFile: '..\\Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', 
+                dir: '..\\Spring_BUILDS\\DeployedBuilds\\' + env.BUILD_NUMBER.toString()
             }
         }
     }
