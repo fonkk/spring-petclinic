@@ -40,10 +40,19 @@ class ValidatorTests {
 	}
 
 	@Test
+	void validateAge() {
+		Person person = new Person();
+		person.setAge(31);
+
+		assertThat(person.getAge() >= 18 && person.getAge() <= 130);
+	}
+
+	@Test
 	void shouldNotValidateWhenFirstNameEmpty() {
 
 		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Person person = new Person();
+		person.setAge(31);
 		person.setFirstName("");
 		person.setLastName("smith");
 
