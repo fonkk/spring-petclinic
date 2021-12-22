@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build&Test') {
+            steps {
+                bat '%JENKINS_HOME%\workspace\Spring\build.bat'
+            }
+        }
+
+        stage('Archive') {
+            steps {
+                zip zipFile: '%JENKINS_HOME%/workspace/Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', dir: '%JENKINS_HOME%/workspace/Spring/target'
+            }
+        }
+
+        stage('Deploy') {
+            steps {
+                unzip zipFile: '%JENKINS_HOME%/workspace/Spring_BUILDS' + env.BUILD_NUMBER.toString() + '.zip', dir: '%JENKINS_HOME%/workspace/Spring_BUILDS/DeployedBuilds/' + env.BUILD_NUMBER.toString()
+            }
+        }
+    }
+
+    post { 
+        always { 
+            emailext body: "${currentBuild.currentResult}: Job ${env.JOB_NAME} build ${env.BUILD_NUMBER}\n More info at: ${env.BUILD_URL}", recipientProviders: [[$class: 'DevelopersRecipientProvider'], [$class: 'RequesterRecipientProvider']], subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME}" 
+        } 
+    }
+}
