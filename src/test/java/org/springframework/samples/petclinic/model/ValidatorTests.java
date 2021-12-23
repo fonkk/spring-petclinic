@@ -26,6 +26,7 @@ import java.util.Locale;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * @author Michael Isvy Simple test to make sure that Bean Validation is working (useful
@@ -41,10 +42,11 @@ class ValidatorTests {
 
 	@Test
 	void validateAge() {
+		LocaleContextHolder.setLocale(Locale.ENGLISH);
 		Person person = new Person();
 		person.setAge(17);
-
-		assertThat(person.getAge() >= 18 && person.getAge() <= 130);
+		int age = person.getAge();
+		assertThat(age).isBetween(18, 130);
 	}
 
 	@Test
