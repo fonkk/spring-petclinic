@@ -42,7 +42,7 @@ class ValidatorTests {
 	@Test
 	void validateAge() {
 		Person person = new Person();
-		person.setAge(31);
+		person.setAge(17);
 
 		assertThat(person.getAge() >= 18 && person.getAge() <= 130);
 	}
